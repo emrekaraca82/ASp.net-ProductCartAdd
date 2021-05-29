@@ -1,0 +1,92 @@
+﻿@model List<WebUygulama.Models.Entity.tbl_sepet>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3><label class="text-danger">@User.Identity.Name</label> Sepetiniz </h3>
+
+<table class="table table-bordered">
+    <thead style="background-color:aliceblue">
+        <tr>
+            <td>Ürün Bilgisi</td>
+            <td>Birim Fiyat</td>
+            <td>Miktar</td>
+            <td>Toplam Tutar</td>
+            <td>Tarih</td>
+            <td>Sil</td>
+            <td>Satın AL</td>
+
+        </tr>
+    </thead>
+    <tbody>
+      
+        @foreach (var item in Model)
+        {         
+            <tr>
+               
+                <td>@item.tbl_urunler.urun_adi - @item.tbl_urunler.urun_barkod</td>
+                <td>@item.birim_fiyat</td>
+                <td>
+                    <div>
+                        @Html.ActionLink("-", "Azalt", new { id = item.ID }, new { @class = "btn btn-danger btn-small azalt" })
+                    </div>
+
+                    @Html.TextBoxFor(x => item.adet, new { @class = "txt" })
+
+                    <div>
+                        @Html.ActionLink("+", "Arttir", new { id = item.ID }, new { @class = "btn btn-primary btn-small arttir" })
+                    </div>
+                </td>
+                <td>@item.toplam_tutar</td>
+                <td>@item.tarih.ToString("")</td>
+
+                <td>@Html.ActionLink("Delete", "Sil", new { id = item.ID }, new { @class = "btn btn-danger", onclick = "return confirm('Emin misin bunun geri dönüşü yok bak siliyorummmm?')" })</td>
+                <td>@Html.ActionLink("Satın Al", "SatinAl", "Satislar", new { id = item.ID }, new { @class = "btn btn-success" })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    <h3 style="color:orangered; text-align:center"> @ViewBag.Tutar</h3>
+</div>
+
+<div class="container form-group">
+    @Html.ActionLink("Hepsini Satın Al", "HepsiniSatinAl", "Satislar", null, new { @class = "btn btn-success form-cotrol" })
+</div>
+<div class="container form-group">
+    @Html.ActionLink("Hepsini Sil", "HepsiniSil", null, new { @class = "btn btn-danger form-cotrol" })
+ 
+</div>
+
+<style>
+
+    .txt {
+        line-height: 18px;
+        width: 50px !important;
+        height: 32px;
+        font-size: 14px;
+        text-align: center;
+        border: solid 1px #ccc;
+        margin-left: 28px;
+    }
+
+    .arttir {
+        display: block;
+        cursor: pointer;
+        border: solid 1px #ccc;
+        position: absolute;
+        margin-top: -32px;
+        margin-left: 82px;
+    }
+
+    .azalt {
+        display: block;
+        cursor: pointer;
+        position: absolute;
+        margin-left: -5px;
+    }
+</style>
+
+

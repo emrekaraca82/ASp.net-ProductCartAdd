@@ -1,0 +1,35 @@
+﻿@model WebUygulama.Models.Entity.tbl_sepet
+
+@{
+    ViewBag.Title = "SatinAl";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3>Merhaba Sayın <label class="text-danger">@User.Identity.Name</label> Satin Alma Sayfasına Hoşgeldiniz </h3>
+
+<div class="container">
+    @using (Html.BeginForm("SatinAl2", "Satislar", FormMethod.Post))
+    {
+    <div class="modal-body">
+        @Html.HiddenFor(x => x.ID)
+
+        <div class="alert alert-warning" style="font-size:24px; width:360px;" role="alert">
+            <strong style="color:black">Ad Soyad:</strong>@Html.DisplayFor(x => x.tbl_login.kul_ad, new { @class = "form-control" }) <br />
+            <strong style="color:black">Urun Adi:</strong> @Html.DisplayFor(x => x.tbl_urunler.urun_adi, new { @class = "form-control" }) <br />
+            <strong style="color:black">Birim Fiyat:</strong>@Html.DisplayFor(x => x.birim_fiyat, new { @class = "form-control" }) <br />
+            <strong style="color:black">Adet:</strong>@Html.DisplayFor(x => x.adet, new { @class = "form-control" }) <br />
+            <strong style="color:black">Kdv:</strong>@Html.DisplayFor(x => x.tbl_urunler.kdv, new { @class = "form-control" }) <br />          
+            <div class="form-group text-center" style="font-size:24px; color:orangered">
+            <strong> Toplam Tutar:@Html.DisplayFor(x => x.toplam_tutar, new { @class = "form-control" }) </strong></div>
+            <button class="btn btn-success">Satın Al</button>
+            <a href="/Sepet/Index" style="float:right" class="btn btn-danger">Çıkış</a>
+        </div>
+
+      
+
+    </div>
+
+        
+    }
+</div>
+

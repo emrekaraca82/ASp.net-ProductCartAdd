@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <title>Web Uygulama</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div style="margin-left:92px;" class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">MVCSTOK</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/Kategori/Index">Kategoriler</a></li>
+                <li><a href="/Urunler/Index">Ürünler</a></li>
+                <li><a href="/Satislar/Index">Satışlar</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> @User.Identity.Name <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Uye/Logout">Çıkıs Yap</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/Sepet/Index">
+                        <img src="~/Content/login/images/icons/sepet.png" style="width:32px;height:24px;" />
+                        <label style="color:orangered; margin-left:5px;">@{ Html.RenderAction("TotalCount", "Sepet");}</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+</body>
+</html>

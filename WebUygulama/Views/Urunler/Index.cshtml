@@ -1,0 +1,50 @@
+﻿@using WebUygulama.Models.Entity
+@model List<tbl_urunler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2 style="text-align:center;color:darkslategrey">Ürün Listeleme Sayfası</h2>
+<a href="/Urunler/UrunEkle/" style="margin-bottom:20px; margin-right:20px;" class="btn btn-success"> Yeni Ürün</a>
+<a href="@Url.Action("ExcelExport","Urunler")" style="margin-bottom:20px;" class="btn btn-warning">Excel Aktar</a>
+<table id="tbl1" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Barkod</th>
+            <th>Adi</th>
+            <th>Markası</th>
+            <th>Fiyat</th>
+            <th>Stok</th>
+            <th>Sil</th>
+            <th>Sepet Ekle</th>
+        </tr>
+    </thead>
+   
+    <tbody>
+        @foreach (var urn in Model)
+        {
+            <tr>
+                <td>@urn.urun_barkod</td>
+                <td>@urn.urun_adi</td>
+                <td>@urn.tbl_kategori.kategori_adi</td>
+                <td>@urn.urun_fiyat</td>
+                <td>@urn.urun_stok</td>
+                <td><a href="/Urunler/Sil/@urn.urun_id" class="btn btn-danger">Delete</a></td>
+                <td>@Html.ActionLink("SepeteEkle", "SepeteEkle", "Sepet", new { ID = urn.urun_id }, new { @class = "btn btn-success" })</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+<script>
+    $('#tbl1').DataTable();
+</script>

@@ -1,0 +1,60 @@
+﻿@using WebUygulama.Models.Entity
+@model List<tbl_sepet>
+@{
+    ViewBag.Title = "HepsiniSatinAl";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+    <div class="container">
+
+
+        <div class="container">
+            @{
+                UygulamaEntities2 db = new UygulamaEntities2();
+                var username = User.Identity.Name;
+                var model = db.tbl_login.FirstOrDefault(x => x.kul_ad == username);
+                var adsoyad = model.kul_ad;
+            }
+            <h3>Merhaba Sayın <label class="text-danger">@adsoyad</label> Satin Alma Sayfasına Hoşgeldiniz </h3>
+            <hr />
+        </div>
+
+
+        @using (Html.BeginForm("HepsiniSatinAl2", "Satislar", FormMethod.Post, new { @class = "container" }))
+        {
+
+            foreach (var item in Model)
+            {
+    <div class="col-md-4">
+        <div class="alert alert-warning" style="font-size:24px; width:auto;" role="alert">
+            <strong style="color:black">Ürün Adı:</strong>@Html.DisplayFor(x => item.tbl_urunler.urun_adi) <br />
+            <strong style="color:black">Barkod No:</strong> @Html.DisplayFor(x => item.tbl_urunler.urun_barkod) <br />
+            <strong style="color:black">Adet:</strong>@Html.DisplayFor(x => item.adet) <br />
+            <strong style="color:black">Fiyat:</strong>@Html.DisplayFor(x => item.birim_fiyat)<br />
+            <strong style="color:black">Tarih:</strong>@Html.DisplayFor(x => item.tarih) <br />
+            <strong style="color:black">Tutar:</strong>@Html.DisplayFor(x => item.toplam_tutar) <br />
+
+        </div>
+    </div>
+                    }
+
+                    }
+                </div>
+            
+
+    <div class="container">
+        <div><h1 class="text-danger text-center">@ViewBag.tutar</h1></div>
+       
+        @Html.ActionLink("Satın Al", "HepsiniSatinAl2", "Satislar", null, new { @class = "btn btn-success form-cotrol" })
+
+        <div class="form-group" style="float:right;">
+            <a href="/Sepet/Index" class="btn btn-danger btn-md" style="float:right">İptal</a>
+        </div>
+
+    </div>
+
+
+
+
+

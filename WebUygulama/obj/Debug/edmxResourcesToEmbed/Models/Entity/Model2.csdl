@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UygulamaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_kategori">
+    <Key>
+      <PropertyRef Name="kategori_id" />
+    </Key>
+    <Property Name="kategori_id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kategori_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_urunler" Relationship="UygulamaModel.FK_tbl_urunler_tbl_kategori" FromRole="tbl_kategori" ToRole="tbl_urunler" />
+  </EntityType>
+  <EntityType Name="tbl_login">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kul_ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="kul_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_sepet" Relationship="Self.FK_tbl_sepet_tbl_login" FromRole="tbl_login" ToRole="tbl_sepet" />
+    <NavigationProperty Name="tbl_satis" Relationship="UygulamaModel.FK_tbl_satis_tbl_login" FromRole="tbl_login" ToRole="tbl_satis" />
+  </EntityType>
+  <EntityType Name="tbl_sepet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kullanici_id" Type="Int32" />
+    <Property Name="urun_id" Type="Int32" />
+    <Property Name="birim_fiyat" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="adet" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="toplam_tutar" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="tarih" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="saat" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="tbl_login" Relationship="Self.FK_tbl_sepet_tbl_login" FromRole="tbl_sepet" ToRole="tbl_login" />
+    <NavigationProperty Name="tbl_urunler" Relationship="UygulamaModel.FK_tbl_sepet_tbl_urunler" FromRole="tbl_sepet" ToRole="tbl_urunler" />
+  </EntityType>
+  <Association Name="FK_tbl_sepet_tbl_login">
+    <End Role="tbl_login" Type="Self.tbl_login" Multiplicity="0..1" />
+    <End Role="tbl_sepet" Type="Self.tbl_sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_login">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tbl_sepet">
+        <PropertyRef Name="kullanici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UygulamaEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tbl_kategori" EntityType="Self.tbl_kategori" />
+    <EntitySet Name="tbl_login" EntityType="Self.tbl_login" />
+    <EntitySet Name="tbl_sepet" EntityType="Self.tbl_sepet" />
+    <AssociationSet Name="FK_tbl_sepet_tbl_login" Association="Self.FK_tbl_sepet_tbl_login">
+      <End Role="tbl_login" EntitySet="tbl_login" />
+      <End Role="tbl_sepet" EntitySet="tbl_sepet" />
+    </AssociationSet>
+    <EntitySet Name="tbl_urunler" EntityType="UygulamaModel.tbl_urunler" />
+    <AssociationSet Name="FK_tbl_urunler_tbl_kategori" Association="UygulamaModel.FK_tbl_urunler_tbl_kategori">
+      <End Role="tbl_kategori" EntitySet="tbl_kategori" />
+      <End Role="tbl_urunler" EntitySet="tbl_urunler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_sepet_tbl_urunler" Association="UygulamaModel.FK_tbl_sepet_tbl_urunler">
+      <End Role="tbl_urunler" EntitySet="tbl_urunler" />
+      <End Role="tbl_sepet" EntitySet="tbl_sepet" />
+    </AssociationSet>
+    <EntitySet Name="tbl_satis" EntityType="UygulamaModel.tbl_satis" />
+    <AssociationSet Name="FK_tbl_satis_tbl_login" Association="UygulamaModel.FK_tbl_satis_tbl_login">
+      <End Role="tbl_login" EntitySet="tbl_login" />
+      <End Role="tbl_satis" EntitySet="tbl_satis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_satis_tbl_urunler" Association="UygulamaModel.FK_tbl_satis_tbl_urunler">
+      <End Role="tbl_urunler" EntitySet="tbl_urunler" />
+      <End Role="tbl_satis" EntitySet="tbl_satis" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tbl_urunler">
+    <Key>
+      <PropertyRef Name="urun_id" />
+    </Key>
+    <Property Name="urun_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="urun_barkod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="urun_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="urun_kategori" Type="Int16" />
+    <Property Name="urun_fiyat" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="urun_stok" Type="Int32" />
+    <Property Name="kdv" Type="Int32" />
+    <NavigationProperty Name="tbl_kategori" Relationship="UygulamaModel.FK_tbl_urunler_tbl_kategori" FromRole="tbl_urunler" ToRole="tbl_kategori" />
+    <NavigationProperty Name="tbl_sepet" Relationship="UygulamaModel.FK_tbl_sepet_tbl_urunler" FromRole="tbl_urunler" ToRole="tbl_sepet" />
+    <NavigationProperty Name="tbl_satis" Relationship="UygulamaModel.FK_tbl_satis_tbl_urunler" FromRole="tbl_urunler" ToRole="tbl_satis" />
+  </EntityType>
+  <Association Name="FK_tbl_urunler_tbl_kategori">
+    <End Type="UygulamaModel.tbl_kategori" Role="tbl_kategori" Multiplicity="0..1" />
+    <End Type="UygulamaModel.tbl_urunler" Role="tbl_urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kategori">
+        <PropertyRef Name="kategori_id" />
+      </Principal>
+      <Dependent Role="tbl_urunler">
+        <PropertyRef Name="urun_kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_sepet_tbl_urunler">
+    <End Type="UygulamaModel.tbl_urunler" Role="tbl_urunler" Multiplicity="0..1" />
+    <End Type="UygulamaModel.tbl_sepet" Role="tbl_sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_urunler">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="tbl_sepet">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tbl_satis">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kullanici_id" Type="Int32" />
+    <Property Name="urun_id" Type="Int32" />
+    <Property Name="sepet_id" Type="Int32" />
+    <Property Name="barkod_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="birim_fiyat" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="adet" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="toplam_tutar" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="kdv" Type="Int32" />
+    <Property Name="tarih" Type="DateTime" Precision="0" />
+    <Property Name="saat" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_login" Relationship="UygulamaModel.FK_tbl_satis_tbl_login" FromRole="tbl_satis" ToRole="tbl_login" />
+    <NavigationProperty Name="tbl_urunler" Relationship="UygulamaModel.FK_tbl_satis_tbl_urunler" FromRole="tbl_satis" ToRole="tbl_urunler" />
+    <Property Name="siparis_no" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_tbl_satis_tbl_login">
+    <End Type="UygulamaModel.tbl_login" Role="tbl_login" Multiplicity="0..1" />
+    <End Type="UygulamaModel.tbl_satis" Role="tbl_satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_login">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tbl_satis">
+        <PropertyRef Name="kullanici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_satis_tbl_urunler">
+    <End Type="UygulamaModel.tbl_urunler" Role="tbl_urunler" Multiplicity="0..1" />
+    <End Type="UygulamaModel.tbl_satis" Role="tbl_satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_urunler">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="tbl_satis">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
